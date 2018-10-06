@@ -1,4 +1,9 @@
 language: python
+
+os:
+    - linux
+    - osx
+
 python:
     - "2.7"
     - "3.5"
@@ -9,13 +14,20 @@ env:
         - PYAAF27=PyAAF-1.0.0-cp27-cp27mu-manylinux1_x86_64.whl
         - PYAAF35=PyAAF-1.0.0-cp35-cp35m-manylinux1_x86_64.whl
         - PYAAF36=PyAAF-1.0.0-cp36-cp36m-manylinux1_x86_64.whl
+        - PYAFF27OSX=PyAAF-1.0.0-cp27-none-macosx_10_6_intel.whl
+        - PYAFF35OSX=PyAAF-1.0.0-cp35-cp35m-macosx_10_6_intel.whl
+        - PYAFF36OSX=PyAAF-1.0.0-cp36-cp36m-macosx_10_6_intel.whl
+
 
 before_install:
     # Note that pyaaf is only needed for the AAF adapter
     # We need to get a wheel that matches our Python version
-    - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then export PYAAF=$PYAAF27 ; fi
-    - if [[ $TRAVIS_PYTHON_VERSION == 3.5 ]]; then export PYAAF=$PYAAF35 ; fi
-    - if [[ $TRAVIS_PYTHON_VERSION == 3.6 ]]; then export PYAAF=$PYAAF36 ; fi
+    - if [[ $TRAVIS_PYTHON_VERSION == 2.7 && $TRAVIS_OS_NAME == linux]]; then export PYAAF=$PYAAF27 ; fi
+    - if [[ $TRAVIS_PYTHON_VERSION == 2.7 && $TRAVIS_OS_NAME == linux]]; then export PYAAF=$PYAAF35 ; fi
+    - if [[ $TRAVIS_PYTHON_VERSION == 2.7 && $TRAVIS_OS_NAME == linux]]; then export PYAAF=$PYAAF36 ; fi
+    - if [[ $TRAVIS_PYTHON_VERSION == 2.7 && $TRAVIS_OS_NAME == osx]]; then export PYAAF=$PYAAF27OSX ; fi
+    - if [[ $TRAVIS_PYTHON_VERSION == 2.7 && $TRAVIS_OS_NAME == osx]]; then export PYAAF=$PYAAF35OSX ; fi
+    - if [[ $TRAVIS_PYTHON_VERSION == 2.7 && $TRAVIS_OS_NAME == osx]]; then export PYAAF=$PYAAF36OSX ; fi
     - wget -qO /tmp/${PYAAF} "https://github.com/markreidvfx/pyaaf/releases/download/v1.0.0/${PYAAF}"
 
 install:
